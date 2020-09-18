@@ -1,0 +1,39 @@
+#!/usr/bin/env python3
+import os
+import sys
+
+scriptname = os.path.basename(__file__)
+helptext = f"Usage: {scriptname} [-f]    [-t]    [-h]\n        -f (File location)\n        -t (Hex string)\n        -h (This text thingy)"
+encoder = 'ascii'
+
+try:
+        arg = sys.argv[1]
+        text = sys.argv[2]
+
+except Exception:
+        print(helptext)
+        exit()
+
+if arg == '-f':
+        if os.path.exists(text):
+                try:
+                        file = open(text, 'r')
+                        string = file.read()
+                        print(bytes.fromhex(string).decode(encoder))
+                        file.close()
+                except ValueError:
+                        print("Invalid Hex")
+        else:
+                print("File does not exist!")
+
+elif arg == "-t":
+        try:
+                print(bytes.fromhex(text).decode(encoder))
+        except ValueError:
+                print("Invalid Hex")
+
+elif arg == '-h':
+        print(helptext)
+
+else:
+        print('No argument used. Use -h for help')
